@@ -2,6 +2,8 @@ package telran.person.service;
 
 import telran.person.domain.Address;
 import telran.person.domain.Person;
+import telran.person.dto.ChildDto;
+import telran.person.dto.CityPopulation;
 
 public interface PersonService {
 	
@@ -18,5 +20,9 @@ public interface PersonService {
 	Iterable<Person> getPersonByCity(String city);
 	
 	Iterable<Person> getEmployeeBySalary(int minSalary, int maxSalary);
+
+	Iterable<ChildDto> getChildren();
+	
+	Iterable<CityPopulation> getCityPopulations();
 	
 }

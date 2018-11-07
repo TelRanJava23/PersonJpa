@@ -1,11 +1,16 @@
 package telran.person.service;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import telran.person.dao.PersonRepository;
 import telran.person.domain.Address;
 import telran.person.domain.Person;
+import telran.person.dto.ChildDto;
+import telran.person.dto.CityPopulation;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -35,27 +40,42 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
+	@Transactional
 	public boolean updateAddress(int id, Address address) {
-		// TODO Auto-generated method stub
-		return false;
+		Person person = repository.findById(id).orElse(null);
+		if (person == null) {
+			return false;
+		}
+		person.setAddress(address);
+		//repository.save(person);
+		return true;
 	}
 
 	@Override
 	public Iterable<Person> getPersonByAge(int minAge, int maxAge) {
-		// TODO Auto-generated method stub
-		return null;
+		LocalDate fromDate = LocalDate.now().minusYears(maxAge);
+		LocalDate toDate = LocalDate.now().minusYears(minAge);
+		return repository.findByBirthDateBetween(fromDate, toDate);
 	}
 
 	@Override
 	public Iterable<Person> getPersonByCity(String city) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findByAddressCity(city);
 	}
 
 	@Override
 	public Iterable<Person> getEmployeeBySalary(int minSalary, int maxSalary) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findBySalaryBetween(minSalary, maxSalary);
+	}
+
+	@Override
+	public Iterable<ChildDto> getChildren() {
+		return repository.findChildren();
+	}
+
+	@Override
+	public Iterable<CityPopulation> getCityPopulations() {
+		return repository.getCityPopulations();
 	}
 
 }

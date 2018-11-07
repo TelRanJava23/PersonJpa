@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -20,7 +21,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "id" })
-@Entity
+@Entity(name = "Person")
+@Table(name = "person")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class Person {
 	@Id
